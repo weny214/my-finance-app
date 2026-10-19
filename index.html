@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Finance｜個人理財與目標管理</title>
+<style>
+:root{
+  --bg:#f7f4ef;
+  --panel:#fffdfa;
+  --ink:#332f2b;
+  --muted:#8b8177;
+  --line:#e9e1d7;
+  --accent:#9b7653;
+  --accent-dark:#79583c;
+  --green:#718b73;
+  --red:#c27668;
+  --soft:#f0e8de;
+  --shadow:0 10px 30px rgba(66,48,31,.06)
+}
+*{
+  box-sizing:border-box
+}
+body
+{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Inter, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  line-height:1.5
+}
+button, input, select
+{
+  font:inherit;
+}
+button
+{
+  cursor:pointer;
+}
+.app
+{
+  max-width:1200px;
+  margin:auto;
+  padding:28px 22px 40px;
+}
+header
+{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  margin-bottom:28px;
+}
+.brand
+{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.logo
+{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:var(--accent);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:22px;
+}
+.brand h1
+{
+  font-size:22px;
+  margin:0;
+  letter-spacing:-.5px;
+}
+.brand p
+{
+  margin:2px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+.month-picker
+{
+  display:flex;
+  align-items:center;
+  gap:8px;background:var(--panel);
+  border:1px solid var(--line);
+  padding:8px 12px;
+  border-radius:12px;
+  color:var(--muted);
+}
+.month-picker input
+{
+  border:0;
+  background:transparent;
+  color:var(--ink);
+  outline:none;
+}
+.welcome
+{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin:0 0 20px;
+  gap:16px;
+}
+.eyebrow
+{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--accent);
+  font-weight:700;
+}
+.welcome h2
+{
+  font-size:27px;
+  margin:5px 0 0;
+  letter-spacing:-.7px;
+}
+.welcome p
+{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:14px;
+}
+.btn
+{
+  border:0;
+  border-radius:11px;
+  padding:11px 16px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:650;
+  transition:.15s;
+}
+.btn:hover
+{
+  background:var(--accent-dark);
+  transform:translateY(-1px);
+}
+.btn.secondary
+{
+  background:var(--soft);
+  color:var(--accent-dark);
+}
+.btn.ghost
+{
+  background:transparent;
+  color:var(--muted);
+  border:1px solid var(--line);
+}
+.btn.small
+{
+  padding:7px 10px;
+  font-size:13px;
+}
+.stats
+{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:18px;
+}
+.card
+{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  min-width:0;
+}
+.stat-top
+{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+}
+.stat-icon
+{
+  width:34px;
+  height:34px;
+  border-radius:11px;
+  background:var(--soft);
+  display:grid;place-items:center;
+  color:var(--accent);font-size:17px;
+}
+.stat-value
+{
+  font-size:26px;
+  font-weight:750;
+  letter-spacing:-.8px;
+  margin:12px 0 4px;
+  overflow-wrap:anywhere;
+}
+.stat-foot
+{
+  font-size:12px;
+  color:var(--muted);
+}
+.positive
+{
+  color:var(--green);
+}
+.negative
+{
+  color:var(--red);
+}
+.layout
+{
+  display:grid;
+  grid-template-columns:minmax(0,1.3fr) minmax(300px,.9fr);
+  gap:18px;align-items:start;
+}
+.stack
+{
+  display:grid;
+  gap:18px;
+}
+.card-heading
+{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:17px;
+}
+.card-heading h3
+{
+  font-size:17px;
+  margin:0;
+}
+.card-heading p
+{
+  font-size:12px;
+  color:var(--muted);
+  margin:3px 0 0;
+}
+.section-title
+{
+  display:flex;
+  gap:9px;
+  align-items:center;
+}
+.section-title .mini
+{
+  width:32px;
+  height:32px;
+  background:var(--soft);
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  color:var(--accent);
+}
+form.entry-form
+{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
+.field
+{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.field.full
+{
+  grid-column:1/-1;
+}
+.field label
+{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:650;
+}
+.field input,.field select
+{
+  width:100%;
+  border:1px solid var(--line);
+  background:#fffefa;
+  border-radius:10px;
+  padding:10px 11px;
+  outline:none;
+  color:var(--ink);
+}
+.field input:focus,.field select:focus
+{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px #9b76531a;
+}
+.form-actions
+{
+  grid-column:1/-1;
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:3px;
+}
+.type-switch
+{
+  display:flex;
+  background:#f4eee6;
+  border-radius:10px;
+  padding:4px;
+  gap:4px;
+}
+.type-switch button
+{
+  flex:1;
+  border:0;
+  background:transparent;
+  border-radius:8px;
+  padding:8px;
+  color:var(--muted);
+  font-size:13px;
+}
+.type-switch button.active[data-type="expense"]
+{
+  background:#fff;
+  color:var(--red);
+  box-shadow:0 2px 6px #49321b0d;
+}
+.type-switch button.active[data-type="income"]
+{
+  background:#fff;
+  color:var(--green);
+  box-shadow:0 2px 6px #49321b0d;
+}
+.transactions
+{
+  display:grid;
+  gap:0;
+}
+.transaction
+{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid #f0e9e1;
+}
+.transaction:last-child
+{
+  border-bottom:0;
+}
+.tx-icon
+{
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  background:var(--soft);
+  display:grid;
+  place-items:center;
+  font-size:17px;
+  flex-shrink:0;
+}
+.tx-main
+{
+  flex:1;
+  min-width:0;
+}
+.tx-main strong
+{
+  display:block;
+  font-size:14px;
+  font-weight:650;
+}
+.tx-main span
+{
+  font-size:12px;
+  color:var(--muted);
+}
+.tx-amount
+{
+  font-weight:750;
+  font-size:14px;
+  white-space:nowrap;
+}
+.tx-amount.income
+{
+  color:var(--green);
+}
+.tx-amount.expense
+{
+  color:var(--red);
+}
+.delete-btn
+{
+  border:0;
+  background:transparent;
+  color:#b9aea2;
+  font-size:17px;
+  padding:5px;
+}
+.delete-btn:hover
+{
+  color:var(--red);
+}
+.empty
+{
+  padding:25px 10px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+}
+.goal
+{
+  padding:14px 0;
+  border-bottom:1px solid #f0e9e1;
+}
+.goal:last-child
+{
+  border-bottom:0;
+  padding-bottom:0;
+}
+.goal-top
+{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:start;
+}
+.goal-name
+{
+  font-weight:700;
+  font-size:14px;
+}
+.goal-date
+{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
+}
+.goal-numbers
+{
+  text-align:right;
+  font-size:12px;
+  color:var(--muted);
+  white-space:nowrap;
+}
+.goal-numbers strong
+{
+  display:block;
+  color:var(--ink);
+  font-size:14px;
+}
+.progress
+{
+  height:8px;
+  background:#eee7df;
+  border-radius:99px;
+  overflow:hidden;
+  margin:12px 0 8px;
+}
+.progress span
+{
+  height:100%;
+  display:block;
+  background:var(--green);
+  border-radius:99px;
+  transition:width .3s;
+}
+.goal-bottom
+{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:12px;
+  color:var(--muted);
+}
+.goal-actions
+{
+  display:flex;
+  gap:5px;
+}
+.goal-actions button
+{
+  border:0;
+  background:transparent;
+  color:var(--accent);
+  font-size:12px;
+  padding:3px;
+}
+.goal-actions button:hover
+{
+  text-decoration:underline;
+}
+.insight
+{
+  background:#f2ece3;
+  border:1px solid #e8ddcf;
+  border-radius:14px;padding:15px;
+  display:flex;
+  gap:12px;
+}
+.insight-icon
+{
+  font-size:20px;
+}
+.insight strong
+{
+  font-size:13px;
+  display:block;
+  margin-bottom:4px;
+}
+.insight p
+{
+  font-size:12px;
+  color:#75685b;
+  margin:0;
+}
+.chart-wrap
+{
+  display:flex;
+  align-items:center;
+  gap:22px;
+}
+.donut
+{
+  width:128px;
+  height:128px;
+  border-radius:50%;
+  background:conic-gradient(var(--red) 0deg 0deg,#eae2d8 0deg 360deg);
+  position:relative;flex-shrink:0;
+}
+.donut:after
+{
+  content:"";
+  position:absolute;
+  inset:15px;
+  background:var(--panel);
+  border-radius:50%;
+}
+.donut-label
+{
+  position:absolute;
+  inset:0;z-index:1;
+  display:grid;
+  align-content:center;
+  text-align:center;
+  font-size:11px;
+  color:var(--muted);
+}
+.donut-label strong
+{
+  font-size:20px;
+  color:var(--ink);
+}
+.legend
+{
+  flex:1;
+  display:grid;
+  gap:12px;
+}
+.legend-row
+{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  font-size:12px;
+}
+.legend-label
+{
+  display:flex;
+  align-items:center;
+  gap:7px;color:var(--muted);
+}
+.dot
+{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  display:inline-block;
+}
+.dot.expense
+{
+  background:var(--red);
+}
+.dot.remaining
+{
+  background:#eae2d8;
+}
+.footer
+{
+  text-align:center;
+  color:#a99e91;
+  font-size:11px;
+  margin-top:25px;
+}
+.modal-backdrop
+{
+  position:fixed;
+  inset:0;
+  background:#211a1480;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:10;
+}
+.modal-backdrop.open
+{
+  display:flex;
+}
+.modal
+{
+  width:min(440px,100%);
+  background:var(--panel);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 20px 60px #0002;
+}
+.modal h3
+{
+  margin:0 0 5px;
+}
+.modal>p
+{
+  margin:0 0 20px;
+  color:var(--muted);
+  font-size:13px;
+}
+.modal form
+{
+  display:grid;
+  gap:12px;
+}
+.modal-actions
+{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:8px;
+}
+.toast
+{
+  position:fixed;
+  bottom:22px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);opacity:0;background:#332f2b;color:white;border-radius:12px;padding:11px 16px;
+  font-size:13px;transition:.2s;pointer-events:none;
+  z-index:20;
+}
+.toast.show
+{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+@media (max-width: 900px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .right-column {
+        grid-template-columns: 1fr 1fr;
+        display: grid;
+        align-items: start;
+      }
+      .right-column .insight-card {
+        grid-column: 1/-1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .app {
+        padding: 18px 13px 28px;
+      }
+      header {
+        align-items: flex-start;
+      }
+      .brand h1 {
+        font-size: 19px;
+      }
+      .month-picker {
+        padding: 7px 8px;
+        font-size: 12px;
+      }
+      .month-picker input {
+        width: 105px;
+        font-size: 12px;
+      }
+      .welcome {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .welcome h2 {
+        font-size: 23px;
+      }
+      .stats {
+        gap: 9px;
+      }
+      .card {
+        padding: 15px;
+        border-radius: 15px;
+      }
+      .stat-value {
+        font-size: 22px;
+      }
+      .right-column {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .right-column .insight-card {
+        grid-column: auto;
+      }
+      .chart-wrap {
+        gap: 15px;
+      }
+      .donut {
+        width: 108px;
+        height: 108px;
+      }
+      .donut:after {
+        inset: 13px;
+      }
+      .form-actions .btn {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo">＄</div>
+        <div>
+          <h1>My Finance</h1>
+          <p>讓每一筆錢，都更有方向。</p>
+        </div>
+      </div>
+      <label class="month-picker">
+        ◷ <input type="month" id="monthPicker" aria-label="選擇月份">
+      </label>
+    </header>
+
+    <section class="welcome">
+      <div>
+        <div class="eyebrow">PERSONAL FINANCE</div>
+        <h2>把生活，理得更有餘裕。</h2>
+        <p id="welcomeText">記錄日常收支，慢慢靠近想要的生活。</p>
+      </div>
+      <button class="btn" id="openEntry">＋ 新增收支</button>
+    </section>
+
+    <section class="stats" aria-label="財務總覽">
+      <article class="card">
+        <div class="stat-top"><span>本月收入</span><span class="stat-icon">↗</span></div>
+        <div class="stat-value" id="incomeTotal">$0</div>
+        <div class="stat-foot">本月所有收入紀錄</div>
+      </article>
+      <article class="card">
+        <div class="stat-top"><span>本月支出</span><span class="stat-icon">↘</span></div>
+        <div class="stat-value" id="expenseTotal">$0</div>
+        <div class="stat-foot">本月所有支出紀錄</div>
+      </article>
+      <article class="card">
+        <div class="stat-top"><span>本月結餘</span><span class="stat-icon">◇</span></div>
+        <div class="stat-value" id="balanceTotal">$0</div>
+        <div class="stat-foot" id="balanceHint">收入減去支出</div>
+      </article>
+      <article class="card">
+        <div class="stat-top"><span>儲蓄目標</span><span class="stat-icon">◎</span></div>
+        <div class="stat-value" id="goalTotal">0%</div>
+        <div class="stat-foot" id="goalHint">整體目標完成率</div>
+      </article>
+    </section>
+
+    <main class="layout">
+      <div class="stack">
+        <section class="card">
+          <div class="card-heading">
+            <div class="section-title">
+              <span class="mini">＋</span>
+              <div>
+                <h3>新增一筆紀錄</h3>
+                <p>把每一筆收入與支出都好好記下來</p>
+              </div>
+            </div>
+          </div>
+          <form class="entry-form" id="entryForm">
+            <div class="field full">
+              <label>紀錄類型</label>
+              <div class="type-switch">
+                <button type="button" class="active" data-type="expense">支出</button>
+                <button type="button" data-type="income">收入</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="amount">金額（NT$）</label>
+              <input id="amount" type="number" min="1" step="1" placeholder="例如：250" required>
+            </div>
+            <div class="field">
+              <label for="category">分類</label>
+              <select id="category">
+                <option>飲食</option>
+                <option>交通</option>
+                <option>購物</option>
+                <option>生活</option>
+                <option>學習</option>
+                <option>娛樂</option>
+                <option>薪資</option>
+                <option>獎學金</option>
+                <option>其他</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="date">日期</label>
+              <input id="date" type="date" required>
+            </div>
+            <div class="field">
+              <label for="note">備註</label>
+              <input id="note" type="text" maxlength="60" placeholder="例如：午餐、打工薪水">
+            </div>
+            <div class="form-actions">
+              <button class="btn secondary" type="reset">清除</button>
+              <button class="btn" type="submit">儲存紀錄</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card">
+          <div class="card-heading">
+            <div class="section-title">
+              <span class="mini">≋</span>
+              <div>
+                <h3>收支紀錄</h3>
+                <p id="transactionCaption">最近的收支明細</p>
+              </div>
+            </div>
+            <button class="btn ghost small" id="clearMonth">清空本月</button>
+          </div>
+          <div class="transactions" id="transactions"></div>
+        </section>
+      </div>
+
+      <div class="stack right-column">
+        <section class="card">
+          <div class="card-heading">
+            <div class="section-title">
+              <span class="mini">◔</span>
+              <div>
+                <h3>本月收支概況</h3>
+                <p>看看每一份收入的去向</p>
+              </div>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <div class="donut" id="donut">
+              <div class="donut-label">
+                <span>支出比例</span>
+                <strong id="expenseRatio">0%</strong>
+              </div>
+            </div>
+            <div class="legend">
+              <div class="legend-row">
+                <span class="legend-label"><i class="dot expense"></i>本月支出</span>
+                <strong id="chartExpense">$0</strong>
+              </div>
+              <div class="legend-row">
+                <span class="legend-label"><i class="dot remaining"></i>收入扣除支出</span>
+                <strong id="chartRemaining">$0</strong>
+              </div>
+              <div class="legend-row">
+                <span class="legend-label">收支狀態</span>
+                <strong id="chartStatus">尚無資料</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-heading">
+            <div class="section-title">
+              <span class="mini">◎</span>
+              <div>
+                <h3>我的儲蓄目標</h3>
+                <p>每一小步，都離目標更近</p>
+              </div>
+            </div>
+            <button class="btn secondary small" id="addGoal">＋ 新增</button>
+          </div>
+          <div id="goals"></div>
+        </section>
+
+        <section class="card insight-card">
+          <div class="card-heading">
+            <div class="section-title">
+              <span class="mini">✦</span>
+              <div>
+                <h3>本月理財小提醒</h3>
+                <p>依照你的收支紀錄產生</p>
+              </div>
+            </div>
+          </div>
+          <div class="insight">
+            <div class="insight-icon">☼</div>
+            <div>
+              <strong id="insightTitle">從記錄開始理財</strong>
+              <p id="insightText">先記下每天的收支，就能逐漸看見自己的金錢習慣。</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div class="footer">MY FINANCE · 資料只儲存在目前瀏覽器，不會傳送到外部伺服器。</div>
+  </div>
+
+  <div class="modal-backdrop" id="goalModal" role="dialog" aria-modal="true" aria-labelledby="goalModalTitle">
+    <div class="modal">
+      <h3 id="goalModalTitle">新增儲蓄目標</h3>
+      <p>替想完成的事情，設定一個清楚的數字。</p>
+      <form id="goalForm">
+        <div class="field">
+          <label for="goalName">目標名稱</label>
+          <input id="goalName" maxlength="40" placeholder="例如：旅行基金" required>
+        </div>
+        <div class="field">
+          <label for="goalTarget">目標金額（NT$）</label>
+          <input id="goalTarget" type="number" min="1" placeholder="例如：30000" required>
+        </div>
+        <div class="field">
+          <label for="goalSaved">目前已存（NT$）</label>
+          <input id="goalSaved" type="number" min="0" value="0" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn ghost" id="cancelGoal">取消</button>
+          <button type="submit" class="btn">儲存目標</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    (() => {
+      const $ = id => document.getElementById(id);
+      const today = new Date();
+      const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      const monthString = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+      const money = n => new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 }).format(n);
+      const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
+
+      let transactions = read('myFinanceTransactions', [
+        { id: 1, type: 'income', amount: 12000, category: '薪資', date: localDate(new Date(today.getFullYear(), today.getMonth(), 2)), note: '打工薪水' },
+        { id: 2, type: 'expense', amount: 180, category: '飲食', date: localDate(new Date(today.getFullYear(), today.getMonth(), 3)), note: '午餐' },
+        { id: 3, type: 'expense', amount: 850, category: '學習', date: localDate(new Date(today.getFullYear(), today.getMonth(), 5)), note: '參考書' },
+        { id: 4, type: 'expense', amount: 420, category: '交通', date: localDate(new Date(today.getFullYear(), today.getMonth(), 7)), note: '交通月票' },
+        { id: 5, type: 'income', amount: 3000, category: '其他', date: localDate(new Date(today.getFullYear(), today.getMonth(), 9)), note: '家教收入' },
+        { id: 6, type: 'expense', amount: 650, category: '購物', date: localDate(new Date(today.getFullYear(), today.getMonth(), 12)), note: '日用品' }
+      ]);
+
+      let goals = read('myFinanceGoals', [
+        { id: 101, name: '緊急預備金', target: 30000, saved: 12500 },
+        { id: 102, name: '旅行基金', target: 20000, saved: 6800 }
+      ]);
+
+      let currentType = 'expense';
+      $('monthPicker').value = monthString(today);
+      $('date').value = localDate(today);
+
+      const save = () => {
+        localStorage.setItem('myFinanceTransactions', JSON.stringify(transactions));
+        localStorage.setItem('myFinanceGoals', JSON.stringify(goals));
+      };
+
+      let toastTimer;
+      function toast(msg) {
+        $('toast').textContent = msg;
+        $('toast').classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => $('toast').classList.remove('show'), 2200);
+      }
+
+      function monthData() {
+        const m = $('monthPicker').value;
+        return transactions.filter(t => t.date.startsWith(m)).sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+      }
+
+      function render() {
+        const list = monthData();
+        const income = list.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+        const expense = list.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+        const balance = income - expense;
+
+        $('incomeTotal').textContent = money(income);
+        $('expenseTotal').textContent = money(expense);
+        $('balanceTotal').textContent = money(balance);
+        $('balanceTotal').className = 'stat-value ' + (balance < 0 ? 'negative' : 'positive');
+        $('balanceHint').textContent = balance < 0 ? '本月支出已超過收入' : '收入減去支出';
+
+        const goalTotal = goals.length ? Math.round(goals.reduce((s, g) => s + Math.min(g.saved / g.target, 1), 0) / goals.length * 100) : 0;
+        $('goalTotal').textContent = goalTotal + '%';
+        $('goalHint').textContent = goals.length ? `${goals.length} 個進行中的目標` : '尚未建立目標';
+
+        $('transactionCaption').textContent = `${$('monthPicker').value.replace('-', ' 年 ')} 月，共 ${list.length} 筆紀錄`;
+
+        $('transactions').innerHTML = list.length ? list.map(t => `
+          <div class="transaction">
+            <div class="tx-icon">${iconFor(t.category)}</div>
+            <div class="tx-main">
+              <strong>${escapeHtml(t.note || t.category)}</strong>
+              <span>${escapeHtml(t.category)} · ${t.date}</span>
+            </div>
+            <div class="tx-amount ${t.type}">${t.type === 'income' ? '+' : '−'}${money(t.amount)}</div>
+            <button class="delete-btn" data-delete-tx="${t.id}" aria-label="刪除紀錄">×</button>
+          </div>
+        `).join('') : '<div class="empty">這個月還沒有紀錄，新增第一筆收支吧。</div>';
+
+        $('chartExpense').textContent = money(expense);
+        $('chartRemaining').textContent = money(Math.max(balance, 0));
+        $('chartStatus').textContent = income === 0 && expense === 0 ? '尚無資料' : balance < 0 ? '支出超過收入' : balance === 0 ? '收支打平' : '仍有結餘';
+
+        const ratio = income ? Math.min(expense / income, 1) : expense ? 1 : 0;
+        const deg = ratio * 360;
+        $('expenseRatio').textContent = Math.round(ratio * 100) + '%';
+        $('donut').style.background = `conic-gradient(var(--red) 0deg ${deg}deg, #eae2d8 ${deg}deg 360deg)`;
+
+        $('goals').innerHTML = goals.length ? goals.map(g => {
+          const pct = Math.min(100, Math.round(g.saved / g.target * 100));
+          return `
+            <div class="goal">
+              <div class="goal-top">
+                <div>
+                  <div class="goal-name">${escapeHtml(g.name)}</div>
+                  <div class="goal-date">目標 ${money(g.target)}</div>
+                </div>
+                <div class="goal-numbers">
+                  <strong>${money(g.saved)}</strong>已存金額
+                </div>
+              </div>
+              <div class="progress"><span style="width:${pct}%"></span></div>
+              <div class="goal-bottom">
+                <span>${pct}% · 還差 ${money(Math.max(g.target - g.saved, 0))}</span>
+                <div class="goal-actions">
+                  <button data-add-saved="${g.id}">＋ 存入</button>
+                  <button data-edit-goal="${g.id}">編輯</button>
+                  <button data-delete-goal="${g.id}">刪除</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('') : '<div class="empty">還沒有儲蓄目標，新增一個想完成的計畫吧。</div>';
+
+        if (income === 0 && expense === 0) {
+          $('insightTitle').textContent = '從記錄開始理財';
+          $('insightText').textContent = '先記下每天的收支，就能逐漸看見自己的金錢習慣。';
+        } else if (balance < 0) {
+          $('insightTitle').textContent = '這個月支出稍微超出收入';
+          $('insightText').textContent = '可以先檢視非必要支出，設定一個下週可實行的小預算。';
+        } else if (income > 0 && expense / income >= .7) {
+          $('insightTitle').textContent = '留意支出比例';
+          $('insightText').textContent = `目前支出約占收入 ${Math.round(expense / income * 100)}%，試著替下一筆非必要消費設定上限。`;
+        } else {
+          $('insightTitle').textContent = '維持記錄，讓結餘慢慢累積';
+          $('insightText').textContent = `本月目前結餘 ${money(balance)}。可以依照自己的需求，規劃一部分作為儲蓄。`;
+        }
+
+        $('welcomeText').textContent = `今天是 ${localDate(today)}, 一步一步整理自己的財務。`;
+      }
+
+      function iconFor(cat) {
+        return ({ 飲食: '☕', 交通: '↗', 購物: '◇', 生活: '⌂', 學習: '✎', 娛樂: '♫', 薪資: '↗', 獎學金: '✧', 其他: '＋' })[cat] || '＋';
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      }
+
+      document.querySelectorAll('.type-switch button').forEach(b => b.addEventListener('click', () => {
+        currentType = b.dataset.type;
+        document.querySelectorAll('.type-switch button').forEach(x => x.classList.toggle('active', x === b));
+        $('category').innerHTML = (currentType === 'expense' ? ['飲食', '交通', '購物', '生活', '學習', '娛樂', '其他'] : ['薪資', '獎學金', '家人給予', '投資收益', '其他']).map(x => `<option>${x}</option>`).join('');
+      }));
+
+      $('entryForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const amount = Number($('amount').value);
+        if (!Number.isFinite(amount) || amount <= 0) {
+          toast('請輸入大於 0 的金額');
+          return;
+        }
+        transactions.push({
+          id: Date.now(),
+          type: currentType,
+          amount,
+          category: $('category').value,
+          date: $('date').value,
+          note: $('note').value.trim()
+        });
+        save();
+        render();
+        $('entryForm').reset();
+        $('date').value = localDate(today);
+        toast('收支紀錄已儲存');
+      });
+
+      $('transactions').addEventListener('click', e => {
+        const b = e.target.closest('[data-delete-tx]');
+        if (!b) return;
+        const t = transactions.find(x => x.id === Number(b.dataset.deleteTx));
+        if (t && confirm(`確定刪除「${t.note || t.category}」這筆紀錄嗎？`)) {
+          transactions = transactions.filter(x => x.id !== t.id);
+          save();
+          render();
+          toast('紀錄已刪除');
+        }
+      });
+
+      $('monthPicker').addEventListener('change', render);
+
+      $('clearMonth').addEventListener('click', () => {
+        const m = $('monthPicker').value;
+        const count = transactions.filter(t => t.date.startsWith(m)).length;
+        if (!count) {
+          toast('本月沒有可清除的紀錄');
+          return;
+        }
+        if (confirm(`確定刪除 ${m} 的 ${count} 筆收支紀錄嗎？`)) {
+          transactions = transactions.filter(t => !t.date.startsWith(m));
+          save();
+          render();
+          toast('本月紀錄已清空');
+        }
+      });
+
+      const modal = $('goalModal');
+      function openModal(goal) {
+        $('goalForm').dataset.editId = goal ? goal.id : '';
+        $('goalModalTitle').textContent = goal ? '編輯儲蓄目標' : '新增儲蓄目標';
+        $('goalName').value = goal ? goal.name : '';
+        $('goalTarget').value = goal ? goal.target : '';
+        $('goalSaved').value = goal ? goal.saved : 0;
+        modal.classList.add('open');
+        $('goalName').focus();
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        $('goalForm').reset();
+        delete $('goalForm').dataset.editId;
+      }
+
+      $('addGoal').addEventListener('click', () => openModal());
+      $('cancelGoal').addEventListener('click', closeModal);
+      modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+      $('goalForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const name = $('goalName').value.trim();
+        const target = Number($('goalTarget').value);
+        const saved = Number($('goalSaved').value);
+        if (!name || target <= 0 || saved < 0) {
+          toast('請確認目標名稱與金額');
+          return;
+        }
+        const id = $('goalForm').dataset.editId;
+        if (id) {
+          goals = goals.map(g => g.id === Number(id) ? { ...g, name, target, saved } : g);
+          toast('儲蓄目標已更新');
+        } else {
+          goals.push({ id: Date.now(), name, target, saved });
+          toast('已新增儲蓄目標');
+        }
+        save();
+        render();
+        closeModal();
+      });
+
+      $('goals').addEventListener('click', e => {
+        const add = e.target.closest('[data-add-saved]');
+        const edit = e.target.closest('[data-edit-goal]');
+        const del = e.target.closest('[data-delete-goal]');
+
+        if (add) {
+          const g = goals.find(x => x.id === Number(add.dataset.addSaved));
+          const val = prompt(`「${g.name}」這次想存入多少金額？`, '500');
+          if (val === null) return;
+          const n = Number(val);
+          if (!Number.isFinite(n) || n <= 0) {
+            toast('請輸入大於 0 的金額');
+            return;
+          }
+          g.saved += n;
+          save();
+          render();
+          toast('已更新存款進度');
+        } else if (edit) {
+          const g = goals.find(x => x.id === Number(edit.dataset.editGoal));
+          openModal(g);
+        } else if (del) {
+          const g = goals.find(x => x.id === Number(del.dataset.deleteGoal));
+          if (confirm(`確定刪除「${g.name}」嗎？`)) {
+            goals = goals.filter(x => x.id !== g.id);
+            save();
+            render();
+            toast('儲蓄目標已刪除');
+          }
+        }
+      });
+
+      $('openEntry').addEventListener('click', () => {
+        $('amount').focus();
+        $('entryForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
